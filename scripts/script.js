@@ -1,3 +1,43 @@
+let btns = Array.from(document.querySelectorAll('.btn-main'))
+
+let main_div = document.querySelector('.rps')
+
+res_div = document.createElement('div');
+
+userScore = document.createElement('div');
+
+userScore.textContent = ``;
+
+compScore = document.createElement('div');
+
+compScore.textContent = ``;
+
+winner = document.createElement('div');
+
+
+let uScore = 0;
+let cScore = 0;
+
+
+
+btns.forEach(btn => btn.addEventListener('click',game))
+btns.forEach(btn => btn.addEventListener('transitionend',removeTransition))
+
+
+
+
+
+function removeTransition(e){
+    // if (e.propertyName != 'transform') return;
+
+    // console.log('hi');
+        
+    e.target.classList.remove('selected');
+}
+
+
+
+
 function getComputerChoice(){
     let number =Math.floor(Math.random()*3)
 
@@ -12,8 +52,14 @@ function getComputerChoice(){
     }
 }
 
-function getUserChoice(){
-    const inp = prompt('Rock,paper or scissors?');
+function getUserChoice(e){
+    // const inp = prompt('Rock,paper or scissors?');
+    // console.log()
+
+    const inp = e.target.textContent.toString();
+
+    e.target.classList.add('selected');
+   
 
     return inp.toLowerCase();
 }
@@ -71,39 +117,76 @@ function playRound(userChoice,computerChoice){
 
 }
 
-function game(){
-    let userWins = 0;
-    let computerWins = 0;
+function game(e){
 
-    for(let i=0;i<5;i++){
 
-        let u = getUserChoice();
+        winner.textContent = ``;
+
+        
+
+
+        let u = getUserChoice(e);
         let c = getComputerChoice();
         res = playRound(u,c)
 
+        
+
         if(res=='You win!'){
-            userWins+=1
+            res_div.textContent = "User Wins This Round!";
+            uScore+=1
+
+            userScore.textContent = `User Score: ${uScore.toString()}`
+
+            if (uScore===5){
+
+                winner.textContent = `Winner Of This Game Is User!`;
+                userScore.textContent = '';
+                compScore.textContent = '';
+                res_div.textContent = '';
+                uScore = 0;
+                cScore = 0;
+
+
+
+            }
+
 
         }
 
-        if(res=='You lose!'){
-            computerWins+=1
+        else if(res=='You lose!'){
+            res_div.textContent = "Computer Wins This Round!";
+            cScore+=1
+            compScore.textContent = `Computer Score: ${cScore.toString()}`
+
+            if(cScore===5){
+                winner.textContent = `Winner Of This Game Is Computer!`
+                userScore.textContent = '';
+                compScore.textContent = '';
+                res_div.textContent = '';
+                uScore = 0;
+                cScore = 0;
+
+
+
+
+            }
+
+
 
         }
+        else{
+            res_div.textContent = "This round Is A Tie!";
+
+
+        }
+
+        main_div.appendChild(res_div);
+        main_div.appendChild(userScore);
+        main_div.appendChild(compScore);
+        main_div.appendChild(winner);
+
         
     }
-
-    if(userWins>computerWins){
-        console.log('You Won This Round Of 5');
-    }
-    else if(userWins<computerWins){
-        console.log('You Lose This Round Of 5');
-    }
-    else{
-        console.log('This round of 5 is a tie');
-
-    }
-}
 
 
 
