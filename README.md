@@ -18,3 +18,5 @@ The features of the game are as follows:
 2. CSS
 3. JavaScript
 4. DOM Manipulation
+
+[Live Demo](https://naseela99.github.io/Rock-Paper-Scissors-TheOdinProject/)
